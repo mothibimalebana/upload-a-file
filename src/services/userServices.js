@@ -1,4 +1,5 @@
 const { PrismaClient } = require('../../generated/prisma');
+const { deleteUser } = require('../controllers/userController');
 
 const prisma = new PrismaClient();
 
@@ -86,6 +87,14 @@ const prisma = new PrismaClient();
         size: data.fileSize,
         url:  data.url,
         userId: id
+      }
+    })
+  },
+
+  async deleteUser(id){
+    return prisma.user.delete({
+      where: {
+        id: id
       }
     })
   }

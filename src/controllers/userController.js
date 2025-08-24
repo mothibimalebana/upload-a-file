@@ -31,4 +31,13 @@ exports.createUser = async (req, res) => {
     }
   };
 
-
+  exports.deleteUser = async (req, res) => {
+    try {
+      console.log(req.body)
+      const user = await User.deleteUser(Number(req.params.id))
+      res.status(201).json(user)
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message })
+    }
+  };
