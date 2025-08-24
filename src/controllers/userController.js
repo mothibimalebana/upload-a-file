@@ -1,4 +1,4 @@
-const  { getAllUsersService, User } = require('../services/userServices');
+const  { User } = require('../services/userServices');
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -19,3 +19,16 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+  exports.updateUser = async (req, res) => {
+    try {
+      console.log(req.body)
+      const user = await User.updateUser(Number(req.params.id) , req.body)
+      res.status(201).json(user)
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message })
+    }
+  };
+
+
