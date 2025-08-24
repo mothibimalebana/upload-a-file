@@ -1,10 +1,94 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('../../generated/prisma');
+
 const prisma = new PrismaClient();
 
-exports.getAllUsers = async () => {
-  return prisma.user.findMany();
-};
+  const User = {
+  //index of all services
+  async getAllUsers(){},
+  async getUserById(id){},
+  async createUser(data){},
+  async updateUser(id, data){},
+  async deleteUser(id){},
+  async getAllUserFiles(id){},
+  async createUserFile(id, data){},
+  async updateUserFile(id, data){},
+  async deleteUserFile(id){},
 
-exports.createUser = async (data) => {
-  return prisma.user.create({ data });
-};
+  //read services
+  async getAllUser(){
+    return prisma.user.findMany();
+  },
+  async getAllUserFiles(id){
+    return prisma.files.findMany({
+      where: {
+        userId: id
+      }
+    });
+  },
+
+  async getUserById(id){
+    return prisma.user.findUnique({
+      where: {
+        id: id
+      }
+    })
+  },
+
+  async getUserFiles(id){
+    return prisma.files.findMany({
+      where: {
+        userId: id
+      }
+    })
+  },
+
+  //create services
+  async createUser(data){
+    return prisma.user.create({
+      data: {
+        email: data.email,
+        passwordHash: data.passwordHash,
+      }
+    })
+  },
+
+  async createUserFile(id, data){
+    return prisma.file.create({
+      data: {
+        filename: data.fileName,
+        size: data.fileSize,
+        url: data.fileUrl,
+        userId: id
+      }
+    })
+  },
+
+  //update services
+  async updateUser(id, data){
+    return prisma.user.update({
+      where: {
+        id: id
+      },
+      data: {
+        email: data.email,
+        passwordHash: data.passwordHash,
+      }
+    })
+  },
+  
+  async updateUserFile(id, data){
+    return prisma.user.update({
+      where: {
+        userId: id
+      },
+      data: {
+        filename: data.fileName,
+        size: data.fileSize,
+        url:  data.url,
+        userId: id
+      }
+    })
+  }
+}
+
+module.exports={ User };

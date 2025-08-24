@@ -1,8 +1,9 @@
-const userService = require('../services/user.service');
+const  { getAllUsersService, User } = require('../services/userServices');
 
-exports.getUsers = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
   try {
-    const users = await userService.getAllUsers();
+    const users = await User.getAllUser(); 
+    console.log(users)
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -11,7 +12,8 @@ exports.getUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await userService.createUser(req.body);
+    console.log(req.body)
+    const user = await User.createUser(req.body);
     res.status(201).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
