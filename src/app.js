@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const userRoutes = require('./routes/userRoute');
 
+
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.session());
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -12,3 +16,4 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
