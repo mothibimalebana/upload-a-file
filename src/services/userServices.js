@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
   const User = {
   //index of all services
   async getAllUsers(){},
+  async getUser(id){},
   async getUserById(id){},
   async createUser(data){},
   async updateUser(id, data){},
@@ -17,14 +18,29 @@ const prisma = new PrismaClient();
 
   //read services
   async getAllUser(){
-    return prisma.user.findMany();
+    return await prisma.user.findMany();
+  },
+  async getUser(id){
+    return await prisma.user.findFirst({
+      where: {
+        id: id
+      }
+    })
   },
   async getAllUserFiles(id){
-    return prisma.files.findMany({
+    return await prisma.file.findMany({
       where: {
         userId: id
       }
     });
+  },
+  
+  async getUserFile(id){
+    return await prisma.file.findUnique({
+      where: {
+        userId: id
+      }
+    })
   },
 
   async getUserById(id){
@@ -36,7 +52,7 @@ const prisma = new PrismaClient();
   },
 
   async getUserFiles(id){
-    return prisma.files.findMany({
+    return prisma.file.findMany({
       where: {
         userId: id
       }
