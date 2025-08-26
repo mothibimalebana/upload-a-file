@@ -4,17 +4,6 @@ const { deleteUser } = require('../controllers/userController');
 const prisma = new PrismaClient();
 
   const User = {
-  //index of all services
-  async getAllUsers(){},
-  async getUser(id){},
-  async getUserById(id){},
-  async createUser(data){},
-  async updateUser(id, data){},
-  async deleteUser(id){},
-  async getAllUserFiles(id){},
-  async createUserFile(id, data, fileData){},
-  async updateUserFile(id, data, fileData){},
-  async deleteUserFile(id){},
 
   //read services
   async getAllUser(){
@@ -100,24 +89,39 @@ const prisma = new PrismaClient();
     })
   },
   
-  async updateUserFile(id, data, fileData){
-    return prisma.user.update({
+  async updateUserFile(id, fileId, fileData){
+    return prisma.file.update({
       where: {
-        userId: id
+        userId: id,
+        id: fileId
       },
       data: {
-        filename: data.fileName,
-        size: data.fileSize,
-        url:  data.url,
+        fileName: fileData.originalname,
+        fieldName: fileData.fieldname,
+        originalName: fileData.originalname,
+        encoding: fileData.encoding,
+        mimetype: fileData.mimetype,
+        size: fileData.size,
+        destination: fileData.destination,
+        path: fileData.path,
         userId: id
       }
     })
   },
 
-  async deleteUser(id){
-    return prisma.user.delete({
+  async deleteUser(userId, fileId){
+    return prisma.file.delete({
       where: {
-        id: id
+        id: fileId,
+      }
+    })
+  },
+
+  async deleteUserFile(userId, fileId){
+    return prisma.file.delete({
+      where: {
+        id: fileId,
+        userId: userId,
       }
     })
   }

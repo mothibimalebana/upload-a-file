@@ -30,9 +30,10 @@ exports.createFile = async (req, res) => {
 };
 
   exports.updateFile = async (req, res) => {
+    console.log(req.file)
     try {
       console.log(req.body)
-      const file = await User.updateUserFile(Number(req.params.userId) , req.body)
+      const file = await User.updateUserFile(Number(req.params.userId) , Number(req.params.fileId), req.file)
       res.status(201).json(file)
     }
     catch (err) {
@@ -43,7 +44,7 @@ exports.createFile = async (req, res) => {
   exports.deleteFile = async (req, res) => {
     try {
       console.log(req.body)
-      const user = await User.deleteUserFile(Number(req.params.id))
+      const user = await User.deleteUserFile(Number(req.params.userId), Number(req.params.fileId))
       res.status(201).json(user)
     }
     catch (err) {

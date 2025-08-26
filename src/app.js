@@ -8,9 +8,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api/user', userRoutes);
-app.use('/api/files',fileRouter )
-
+app.use('/:userId/files',fileRouter )
+app.use('/:userId', userRoutes);
 
 
 const PORT = process.env.PORT
