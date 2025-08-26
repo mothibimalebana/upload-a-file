@@ -18,6 +18,7 @@ model User {
 model File {
   id  Int @id @default(autoincrement())
   filename  String
+  
   size  Int?
   url String?
   uplaodedAt  DateTime  @default(now())
