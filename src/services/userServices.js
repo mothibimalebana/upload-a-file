@@ -12,8 +12,8 @@ const prisma = new PrismaClient();
   async updateUser(id, data){},
   async deleteUser(id){},
   async getAllUserFiles(id){},
-  async createUserFile(id, data){},
-  async updateUserFile(id, data){},
+  async createUserFile(id, data, fileData){},
+  async updateUserFile(id, data, fileData){},
   async deleteUserFile(id){},
 
   //read services
@@ -69,12 +69,18 @@ const prisma = new PrismaClient();
     })
   },
 
-  async createUserFile(id, data){
+  async createUserFile(id, data, fileData){
+    console.log(fileData)
     return prisma.file.create({
       data: {
-        filename: data.fileName,
-        size: data.fileSize,
-        url: data.fileUrl,
+        fileName: fileData.originalname,
+        fieldName: fileData.fieldname,
+        originalName: fileData.originalname,
+        encoding: fileData.encoding,
+        mimetype: fileData.mimetype,
+        size: fileData.size,
+        destination: fileData.destination,
+        path: fileData.path,
         userId: id
       }
     })
@@ -93,7 +99,7 @@ const prisma = new PrismaClient();
     })
   },
   
-  async updateUserFile(id, data){
+  async updateUserFile(id, data, fileData){
     return prisma.user.update({
       where: {
         userId: id

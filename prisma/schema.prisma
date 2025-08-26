@@ -17,10 +17,17 @@ model User {
 
 model File {
   id  Int @id @default(autoincrement())
-  filename  String
-  
-  size  Int?
-  url String?
+  // data entered by the user on the form //
+  fileName String
+
+  //  data from the file itself //
+  fieldName String //name specified in the form
+  originalName  String
+  encoding  String
+  mimetype  String
+  size  Int?  //size of file in bytes
+  destination String //folder to which the file has been saved
+  path  String  //full path to uploaded file
   uplaodedAt  DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   user  User  @relation(fields: [userId], references: [id])

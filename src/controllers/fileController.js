@@ -1,8 +1,10 @@
 const  { User } = require('../services/userServices');
 
+
+
 exports.getAllFiles = async (req, res) => {
   try {
-    const files = await User.getAllUserFiles(req.params.id);
+    const files = await User.getAllUserFiles(Number(req.params.userId));
     console.log(files)
     res.json(files);
   } catch (err) {
@@ -12,7 +14,7 @@ exports.getAllFiles = async (req, res) => {
 
 exports.getFile = async (req, res) => {
   try {
-    const files = await User.getUserFiles(req.params.id);
+    const files = await User.getUserFiles(Number(req.params.userId));
     console.log(files)
     res.json(files);
   } catch (err) {
@@ -22,8 +24,7 @@ exports.getFile = async (req, res) => {
 
 exports.createFile = async (req, res) => {
   try {
-    console.log(req.body)
-    const file = await User.createUserFile(req.body);
+    const file = await User.createUserFile(Number(req.params.userId),req.body, req.file);
     res.status(201).json(file);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -33,7 +34,7 @@ exports.createFile = async (req, res) => {
   exports.updateFile = async (req, res) => {
     try {
       console.log(req.body)
-      const file = await User.updateUserFile(Number(req.params.id) , req.body)
+      const file = await User.updateUserFile(Number(req.params.userId) , req.body)
       res.status(201).json(file)
     }
     catch (err) {
