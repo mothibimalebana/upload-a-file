@@ -1,7 +1,5 @@
 const  { User } = require('../services/userServices');
 
-
-
 exports.getAllFiles = async (req, res) => {
   try {
     const files = await User.getAllUserFiles(Number(req.params.userId));
@@ -12,9 +10,9 @@ exports.getAllFiles = async (req, res) => {
   }
 };
 
-exports.getFile = async (req, res) => {
+exports. getFile = async (req, res) => {
   try {
-    const files = await User.getUserFiles(Number(req.params.userId));
+    const files = await User.getUserFile(Number(req.params.userId), Number(req.params.fileId));
     console.log(files)
     res.json(files);
   } catch (err) {

@@ -35,10 +35,11 @@ const prisma = new PrismaClient();
     });
   },
   
-  async getUserFile(id){
+  async getUserFile(userId, fieldId){
     return await prisma.file.findUnique({
       where: {
-        userId: id
+        id: fieldId,
+        userId: userId,
       }
     })
   },

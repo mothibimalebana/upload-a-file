@@ -4,10 +4,12 @@ const { getFile, getAllFiles, createFile, updateFile, deleteFile } = require('..
 const multer = require('multer')
 const upload = multer({dest: 'uploads/'})
 
-fileRouter.get('/file/:fileId', getFile);
-fileRouter.post('/:userId/form', upload.single('file'), createFile);
+
+fileRouter.post('/:userId/form', upload.single('file'), createFile); //tested
 fileRouter.put('/:fileId/form', updateFile)
 fileRouter.delete('/:fileId', deleteFile)
 fileRouter.get('/:userId', getAllFiles);
+fileRouter.get('/:userId/:fileId', getFile);
+
 
 module.exports = fileRouter;
