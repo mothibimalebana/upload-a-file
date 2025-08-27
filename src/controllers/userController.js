@@ -23,7 +23,7 @@ exports.createUser = async (req, res) => {
   exports.updateUser = async (req, res) => {
     try {
       console.log(req.body)
-      const user = await User.updateUser(Number(req.params.id) , req.body)
+      const user = await User.updateUser(Number(req.params.userId) , req.body)
       res.status(201).json(user)
     }
     catch (err) {
@@ -34,7 +34,7 @@ exports.createUser = async (req, res) => {
   exports.deleteUser = async (req, res) => {
     try {
       console.log(req.body)
-      const user = await User.deleteUser(Number(req.params.id))
+      const user = await User.deleteUser(Number(req.params.userId))
       res.status(201).json(user)
     }
     catch (err) {

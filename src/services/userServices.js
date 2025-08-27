@@ -16,6 +16,13 @@ const prisma = new PrismaClient();
       }
     })
   },
+  async getUserByEmail(email){
+    return await prisma.user.findUnique({
+      where: {
+        email: email
+      }
+    })
+  },
   async getAllUserFiles(id){
     return await prisma.file.findMany({
       where: {

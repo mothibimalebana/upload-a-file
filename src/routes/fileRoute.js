@@ -5,6 +5,7 @@ const fileRouter = express.Router({mergeParams: true});
 const { getFile, getAllFiles, createFile, updateFile, deleteFile } = require('../controllers/fileController');
 
 
+
 fileRouter.delete('/:fileId', deleteFile)
 
 fileRouter.get('/', getAllFiles); //tested
