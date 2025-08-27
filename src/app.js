@@ -4,32 +4,18 @@ const userRoutes = require('./routes/userRoute');
 const fileRouter = require('./routes/fileRoute');
 const { User } = require('./services/userServices');
 const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken') //for creating tokens
 const passport = require('passport')
 const passportJWT = require('passport-jwt') //for verifying tokens
-const cors = require('cors')
+const cors = require('cors');
+const { indexRouter } = require('./routes/indexRoute');
 
 const app = express();
-const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
-
-passport.use(strategy)
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use('/:userId/files',fileRouter )
-app.use('/user', userRoutes);
-
-// Middleware setup
-app.use(cors());
-app.use(passport.initialize());
-
+const ExtractJwt = passportJWT.ExtractJwt;
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: "secret",
 };
-
-//verification of token
 const strategy = new JwtStrategy(jwtOptions, (jwt_payload, next) => {
   const user = User.getAllUser.find((user) => user.id === jwt_payload.id);
   if (user) {
@@ -38,6 +24,21 @@ const strategy = new JwtStrategy(jwtOptions, (jwt_payload, next) => {
     next(null, false);
   }
 });
+
+
+passport.use(strategy)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use('/:userId/files',fileRouter )
+app.use('/user', userRoutes);
+app.use('/', indexRouter)
+
+// Middleware setup
+app.use(cors());
+app.use(passport.initialize());
+
+
 
 const PORT = process.env.PORT
 

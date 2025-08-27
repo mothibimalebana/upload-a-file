@@ -61,7 +61,7 @@ const prisma = new PrismaClient();
     return prisma.user.create({
       data: {
         email: data.email,
-        passwordHash: data.passwordHash,
+        passwordHash: data.password,
       }
     })
   },
