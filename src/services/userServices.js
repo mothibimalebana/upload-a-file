@@ -6,8 +6,12 @@ const prisma = new PrismaClient();
   const User = {
 
   //read services
-  async getAllUser(){
-    return prisma.user.findMany();
+  async getUser(email){
+    return prisma.user.findUnique({
+      where: {
+        email: email 
+      }
+    });
   },
   async getAllUserFiles(id){
     return prisma.files.findMany({
