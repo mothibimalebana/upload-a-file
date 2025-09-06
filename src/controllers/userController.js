@@ -16,7 +16,10 @@ exports.createUser = async (req, res) => {
     const user = await User.createUser(req.body);
     res.status(201).json(user);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    if(err.code = "P2002"){
+      res.status(501).json({message: 'email is already registered'})
+    }
+    res.status(500).json({err});
   }
 };
 

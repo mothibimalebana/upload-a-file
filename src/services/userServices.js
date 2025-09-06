@@ -4,16 +4,6 @@ const { deleteUser } = require('../controllers/userController');
 const prisma = new PrismaClient();
 
   const User = {
-  //index of all services
-  async getAllUsers(){},
-  async getUserById(id){},
-  async createUser(data){},
-  async updateUser(id, data){},
-  async deleteUser(id){},
-  async getAllUserFiles(id){},
-  async createUserFile(id, data){},
-  async updateUserFile(id, data){},
-  async deleteUserFile(id){},
 
   //read services
   async getAllUser(){
@@ -45,12 +35,16 @@ const prisma = new PrismaClient();
 
   //create services
   async createUser(data){
+    try{
     return prisma.user.create({
       data: {
         email: data.email,
-        passwordHash: data.passwordHash,
+        passwordHash: data.password,
       }
     })
+    }catch(e){
+      return e
+    }
   },
 
   async createUserFile(id, data){
