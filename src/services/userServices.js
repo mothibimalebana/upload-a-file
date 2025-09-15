@@ -7,11 +7,15 @@ const prisma = new PrismaClient();
 
   //read services
   async getUser(email){
-    return prisma.user.findUnique({
-      where: {
-        email: email 
-      }
-    });
+    try{
+      return prisma.user.findMany({
+        where: {
+          email: email 
+        }
+      });
+    } catch(err){
+      console.error('database')
+    }
   },
   async getAllUserFiles(id){
     return prisma.files.findMany({

@@ -1,15 +1,12 @@
-const { passportJs } = require('../../config/passport');
+const passport = require('passport');
 const  { User } = require('../services/userServices');
-
 
 
 
 
 exports.getUser = async (req, res) => {
   try {
-    passportJs.authenticate('local')
-    // const user = await User.getUser(req.body.email); 
-    // console.log(user)
+    await passport.authenticate('local')
     res.status(201).json({message: 'logged in'}); 
   } catch (err) {
     res.status(500).json({ error: err.message });
