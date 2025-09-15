@@ -6,8 +6,8 @@ const  { User } = require('../services/userServices');
 
 exports.getUser = async (req, res) => {
   try {
-    await passport.authenticate('local')
-    res.status(201).json({message: 'logged in'}); 
+    const user = await User.getUser(req.body.email);
+    res.status(201).json({message: 'logged in', user: user}); 
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -17,12 +17,13 @@ exports.createUser = async (req, res) => {
   try {
     console.log(req.body)
     const user = await User.createUser(req.body);
+
     res.status(201).json(user);
   } catch (err) {
-    if(err.code = "P2002"){
+    if(err.code === "P2002"){
       res.status(501).json({message: 'email is already registered'})
     }
-    res.status(500).json({err});
+    else {res.status(500).json({err})};
   }
 };
 

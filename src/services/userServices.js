@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
   //read services
   async getUser(email){
     try{
-      return prisma.user.findMany({
+      return prisma.user.findFirst({
         where: {
           email: email 
         }
@@ -16,6 +16,9 @@ const prisma = new PrismaClient();
     } catch(err){
       console.error('database')
     }
+  },
+  async getAllUsers(){
+    return prisma.user.findMany();
   },
   async getAllUserFiles(id){
     return prisma.files.findMany({
@@ -43,11 +46,12 @@ const prisma = new PrismaClient();
 
   //create services
   async createUser(data){
+    console.log('data: ', data)
     try{
     return prisma.user.create({
       data: {
         email: data.email,
-        passwordHash: data.password,
+        password: data.password,
       }
     })
     }catch(e){

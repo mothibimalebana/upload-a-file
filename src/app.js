@@ -3,29 +3,29 @@ const express = require('express');
 const userRoutes = require('./routes/userRoute');
 const session = require("express-session");
 const passport = require('passport');
+const { getUser } = require('./controllers/userController');
 const { User } = require('./services/userServices');
+const authRouter = require('./routes/auth');
 const LocalStrategy = require('passport-local').Strategy;
 
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 
-
-
 passport.use(
-  new LocalStrategy(async (email = 'mothibi', password = 'admin', done) => {
+  new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
     try {
-      const query = await User.getUser(email);
-      const user =query[0]
+      const user = await User.getUser(email);
+      console.log('user-local-strategy: ', user)
       
-      console.log(user)
       if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+        return done(null, false, { message: "Incorrect email" });
       }
-      if (user.password !== password) {
+      if (password !== user.password) {
         return done(null, false, { message: "Incorrect password" });
       }
       return done(null, user);
@@ -49,9 +49,12 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+app.use('/login', authRouter);
+app.use('/logout', authRouter);
+app.use('/profile', authRouter);
+app.use('/sign-up', userRoutes);
 
-app.post('/login', passport.authenticate('local'));
-app.use('/', userRoutes);
+User.getAllUsers().then(users => console.log('users: ', users));
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
