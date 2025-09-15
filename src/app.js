@@ -28,6 +28,7 @@ passport.use(
       if (password !== user.password) {
         return done(null, false, { message: "Incorrect password" });
       }
+      
       return done(null, user);
     } catch(err) {
       return done(err);
@@ -49,10 +50,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.use('/login', authRouter);
-app.use('/logout', authRouter);
-app.use('/profile', authRouter);
-app.use('/sign-up', userRoutes);
+app.use('/', authRouter);
 
 User.getAllUsers().then(users => console.log('users: ', users));
 
