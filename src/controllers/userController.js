@@ -1,8 +1,6 @@
 const passport = require('passport');
 const  { User } = require('../services/userServices');
-
-
-
+const bcrypt = require('bcryptjs');
 
 exports.getUser = async (req, res) => {
   try {
@@ -15,6 +13,8 @@ exports.getUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    req.body.password = hashedPassword;
     console.log(req.body)
     const user = await User.createUser(req.body);
 

@@ -7,9 +7,11 @@ const { getUser } = require('./controllers/userController');
 const { User } = require('./services/userServices');
 const authRouter = require('./routes/auth');
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 
 
 const app = express();
+
 app.use(express.urlencoded({ extended: false }));
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
@@ -25,7 +27,9 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect email" });
       }
-      if (password !== user.password) {
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) {
         return done(null, false, { message: "Incorrect password" });
       }
       
