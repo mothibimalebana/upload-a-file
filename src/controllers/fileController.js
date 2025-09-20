@@ -1,14 +1,6 @@
 const  { User } = require('../services/userServices');
 
-exports.getAllFiles = async (req, res) => {
-  try {
-    const files = await User.getAllUserFiles(req.params.id);
-    console.log(files)
-    res.json(files);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+
 
 exports.createFile = async (req, res) => {
   try {

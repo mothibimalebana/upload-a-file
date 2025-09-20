@@ -62,10 +62,14 @@ const prisma = new PrismaClient();
   async createUserFile(id, data){
     return prisma.file.create({
       data: {
-        filename: data.fileName,
-        size: data.fileSize,
-        url: data.fileUrl,
-        userId: id
+        filename: data.fieldname,
+        originalname: data.originalname,
+        encoding: data.encoding,
+        mimetype: data.mimetype,
+        destination: data.destination,
+        path: data.path,
+        size: data.size,
+        userId: id,
       }
     })
   },

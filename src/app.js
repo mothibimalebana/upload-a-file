@@ -7,7 +7,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('../generated/prisma');
+const homeRouter = require('./routes/homeRouter');
+
 
 const app = express();
 
@@ -70,9 +72,8 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+app.use('/home', homeRouter)
 app.use('/', authRouter);
-
-User.getAllUsers().then(users => console.log('users: ', users));
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
