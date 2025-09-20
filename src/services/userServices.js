@@ -1,5 +1,6 @@
 const { PrismaClient } = require('../../generated/prisma');
 const { deleteUser } = require('../controllers/userController');
+const { post } = require('../routes/auth');
 
 const prisma = new PrismaClient();
 
@@ -32,6 +33,15 @@ const prisma = new PrismaClient();
     return prisma.user.findUnique({
       where: {
         id: id
+      }
+    })
+  },
+
+  async getUserFileById(id, userId){
+    return prisma.file.findUnique({
+      where: {
+        id: id,
+        userId: userId,
       }
     })
   },
@@ -87,20 +97,32 @@ const prisma = new PrismaClient();
     })
   },
   
-  async updateUserFile(id, data){
-    return prisma.user.update({
+  async updateUserFile(id, postId, data){
+    return prisma.file.update({
       where: {
-        userId: id
+        userId: id, 
+        id: postId,
       },
       data: {
-        filename: data.fileName,
-        size: data.fileSize,
-        url:  data.url,
-        userId: id
+        filename: data.fieldname,
+        originalname: data.originalname,
+        encoding: data.encoding,
+        mimetype: data.mimetype,
+        destination: data.destination,
+        path: data.path,
+        size: data.size,
+        userId: id,
       }
     })
   },
-
+  async deleteUserFile(id, userId){
+    return prisma.file.delete({
+      where: {
+        id: id,
+        userId: userId,
+      }
+    })
+  },
   async deleteUser(id){
     return prisma.user.delete({
       where: {
