@@ -5,7 +5,7 @@ const upload = multer({ dest: 'uploads/' })
 
 const homeRouter = express.Router();
 
-homeRouter.get('/', getAllFiles, getFolders);
+homeRouter.get('/', getAllFiles);
 
 homeRouter.get('/:id', getFile);
 homeRouter.get('/folder/:id', getFolder);

@@ -22,7 +22,7 @@ const prisma = new PrismaClient();
     return prisma.user.findMany();
   },
   async getAllUserFiles(id){
-    return prisma.files.findMany({
+    return prisma.file.findMany({
       where: {
         userId: id
       }
@@ -79,6 +79,7 @@ const prisma = new PrismaClient();
         destination: data.destination,
         path: data.path,
         size: data.size,
+        folderId: folderId,
         userId: id,
       }
     })
