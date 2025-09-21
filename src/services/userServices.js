@@ -129,6 +129,32 @@ const prisma = new PrismaClient();
         id: id
       }
     })
+  },
+  async getFolders(userId) {
+    return prisma.folder.findMany({
+      where: { userId: userId }
+    });
+  },
+  async getFolder(id, userId) {
+    return prisma.folder.findFirst({
+      where: { id: id, userId: userId }
+    });
+  },
+  async createFolder(userId, name) {
+    return prisma.folder.create({
+      data: { userId: userId, name: name }
+    });
+  },
+  async updateFolder(id, userId, name) {
+    return prisma.folder.updateMany({
+      where: { id: id, userId: userId },
+      data: { name: name }
+    });
+  },
+  async deleteFolder(id, userId) {
+    return prisma.folder.deleteMany({
+      where: { id: id, userId: userId }
+    });
   }
 }
 

@@ -9,6 +9,7 @@ const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('../generated/prisma');
 const homeRouter = require('./routes/homeRouter');
+const fileRouter = require('./routes/homeRouter');
 
 
 const app = express();
