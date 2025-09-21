@@ -39,7 +39,7 @@ exports.createFile = async (req, res) => {
 
 exports.updateFile = async (req, res) => {
     if (!req.isAuthenticated || !req.isAuthenticated()) {
-    return res.status(401).json({ message: 'Not authenticated' });
+        return res.status(401).json({ message: 'Not authenticated' });
     }
     try {
         const file = await User.updateUserFile(Number(req.user.id) , Number(req.params.id), req.file)
