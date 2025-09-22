@@ -69,7 +69,8 @@ const prisma = new PrismaClient();
     }
   },
 
-  async createUserFile(id, data){
+  async createUserFile(id, data, folderId){
+    console.log('folderId: ', folderId)
     return prisma.file.create({
       data: {
         filename: data.fieldname,

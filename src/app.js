@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('../generated/prisma/client');const homeRouter = require('./routes/homeRouter');
+const cors = require('cors')
 
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
+app.use(cors())
 
 passport.use(
   new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {

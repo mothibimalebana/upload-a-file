@@ -30,7 +30,7 @@ exports.createFile = async (req, res) => {
     return res.status(401).json({ message: 'Not authenticated' });
     }
     try {
-            const file = await User.createUserFile(req.user.id, req.file);
+            const file = await User.createUserFile(req.user.id, req.file, Number(req.body.folderId));
             res.status(201).json(file);
         } catch (err) {
             res.status(500).json({ error: err.message });
