@@ -4,7 +4,14 @@ const prisma = new PrismaClient();
 
 const getAllUsers = async () => {
   const users = await prisma.user.findMany()
-  console.log(users)
+  return users
 }
 
-getAllUsers()
+const getUser = async (id) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id
+    }
+  })
+  console.log(user)
+}
