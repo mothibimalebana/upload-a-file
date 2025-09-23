@@ -9,8 +9,8 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('../generated/prisma/client');
 const homeRouter = require('./routes/homeRouter');
 const cors = require('cors');
-const User = require('./services/userServices');
 const userRouter = require('./routes/userRoute');
+const { getUser } = require('./services/userServices');
 const prisma = new PrismaClient();
 
 
@@ -71,7 +71,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.getUserById(id)
+    const user = await getUser(id)
 
     done(null, user);
   } catch(err) {
@@ -79,11 +79,14 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.use('/home', homeRouter)
-app.use('user', userRouter)
+app.use('/user', userRouter)
 app.use('/', authRouter);
 
-
+const getUsers = async () => {
+const users = await prisma.user.findMany();
+console.log(users)
+}
+getUsers()
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

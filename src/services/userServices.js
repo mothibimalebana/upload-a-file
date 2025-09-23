@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const getAllUsers = async () => {
   try{
     const users = await prisma.user.findMany()
-    console.log(users)
+    return users
   } catch(err){
     console.error('err: ', err.message)
   }
@@ -25,7 +25,7 @@ const getUser = async (id) => {
   }
 }
 
-const createUser = async (data) => {
+const newUser = async (data) => {
   try{
   const user = await prisma.user.create({
     data: {
@@ -67,5 +67,4 @@ const deleteUser = async (id) => {
   }
 }
 
-
-module.exports = {createUser, getAllUsers, getUser, updateUser}
+module.exports = {newUser, getAllUsers, getUser, updateUser, deleteUser}

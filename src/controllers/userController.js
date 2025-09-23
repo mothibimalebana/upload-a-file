@@ -1,12 +1,12 @@
-const  { getUser, getAllUsers } = require('../services/userServices');
+const  { getUser, getAllUsers, newUser, updateUser, deleteUser } = require('../services/userServices');
 const bcrypt = require('bcryptjs');
 
 
 
 exports.fetchUser = async (req, res) => {
   try {
-    const user = await this.getUser;
-    res.status(201).json({message: 'logged in', user: user}); 
+    const user = await getUser(req.user.id);
+    res.status(201).json({message: 'user info: ', user: user}); 
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -15,15 +15,16 @@ exports.fetchUser = async (req, res) => {
 exports.fetchAllUsers = async (req, res)  => {
   try{
     const users = await getAllUsers()
+    res.status(201).json({message: 'list of users: ', users: users});
   } catch(err) {
-    console.error('error: ', err.message)
+    res.status(501).json({error: err.message})
   }
 }
 exports.createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
-    console.log('payload: ', req.body)
+    const user = await newUser(req.body);
 
     res.status(201).json(user);
   } catch (err) {
@@ -34,10 +35,11 @@ exports.createUser = async (req, res) => {
   }
 };
 
+
   exports.updateUser = async (req, res) => {
     try {
       console.log(req.body)
-      const user = await User.updateUser(Number(req.params.id) , req.body)
+      const user = await updateUser(Number(req.user.id), req.body)
       res.status(201).json(user)
     }
     catch (err) {
@@ -48,7 +50,7 @@ exports.createUser = async (req, res) => {
   exports.deleteUser = async (req, res) => {
     try {
       console.log(req.body)
-      const user = await User.deleteUser(Number(req.params.id))
+      const user = await deleteUser(Number(req.user.id))
       res.status(201).json(user)
     }
     catch (err) {
