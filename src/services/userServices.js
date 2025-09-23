@@ -1,3 +1,4 @@
+const e = require('express');
 const { PrismaClient } = require('../../generated/prisma');
 
 const prisma = new PrismaClient();
@@ -5,7 +6,7 @@ const prisma = new PrismaClient();
 const getAllUsers = async () => {
   try{
     const users = await prisma.user.findMany()
-    return users
+    console.log(users)
   } catch(err){
     console.error('err: ', err.message)
   }
@@ -54,6 +55,17 @@ const updateUser = async (id, data) => {
   }
 }
 
-getAllUsers()
+const deleteUser = async (id) => {
+  try{
+    const user = await prisma.user.delete({
+      where: {
+        id: id
+      }
+    })
+  } catch(err){
+    console.error('error: ', err.message)
+  }
+}
 
-module.exports = {createUser, getAllUsers, getUser}
+
+module.exports = {createUser, getAllUsers, getUser, updateUser}
