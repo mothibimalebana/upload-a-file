@@ -1,4 +1,3 @@
-const passport = require('passport');
 const  { User } = require('../services/userServices');
 const bcrypt = require('bcryptjs');
 
@@ -15,15 +14,15 @@ exports.createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
-    console.log(req.body)
-    const user = await User.createUser(req.body);
+    console.log('payload: ', req.body)
+    const user = await User.createUser({email: req.body.email, password: req.body.password})
 
     res.status(201).json(user);
   } catch (err) {
     if(err.code === "P2002"){
       res.status(501).json({message: 'email is already registered'})
     }
-    else {res.status(500).json({err})};
+    else {res.status(500).json({'error: ': err.message})};
   }
 };
 

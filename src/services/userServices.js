@@ -1,12 +1,9 @@
 const { PrismaClient } = require('../../generated/prisma');
-const { deleteUser } = require('../controllers/userController');
-const { post } = require('../routes/auth');
 
 const prisma = new PrismaClient();
 
-  const User = {
-
-  //read services
+exports.User = {
+ //read services
   async getUser(email){
     try{
       return prisma.user.findFirst({
@@ -30,7 +27,7 @@ const prisma = new PrismaClient();
   },
 
   async getUserById(id){
-    return prisma.user.findUnique({
+    const user  = await prisma.user.findUnique({
       where: {
         id: id
       }
@@ -47,7 +44,7 @@ const prisma = new PrismaClient();
   },
 
   async getUserFiles(id){
-    return prisma.files.findMany({
+    return prisma.file.findMany({
       where: {
         userId: id
       }
@@ -56,21 +53,16 @@ const prisma = new PrismaClient();
 
   //create services
   async createUser(data){
-    console.log('data: ', data)
-    try{
-    return prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email: data.email,
-        password: data.password,
+        password: data.password
       }
     })
-    }catch(e){
-      return e
-    }
+    return user
   },
 
   async createUserFile(id, data, folderId){
-    console.log('folderId: ', folderId)
     return prisma.file.create({
       data: {
         filename: data.fieldname,
@@ -159,5 +151,3 @@ const prisma = new PrismaClient();
     });
   }
 }
-
-module.exports={ User };
