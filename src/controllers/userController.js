@@ -1,21 +1,29 @@
-const  { User } = require('../services/userServices');
+const  { getUser, getAllUsers } = require('../services/userServices');
 const bcrypt = require('bcryptjs');
 
-exports.getUser = async (req, res) => {
+
+
+exports.fetchUser = async (req, res) => {
   try {
-    const user = await User.getUser(req.body.email);
+    const user = await this.getUser;
     res.status(201).json({message: 'logged in', user: user}); 
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+exports.fetchAllUsers = async (req, res)  => {
+  try{
+    const users = await getAllUsers()
+  } catch(err) {
+    console.error('error: ', err.message)
+  }
+}
 exports.createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashedPassword;
     console.log('payload: ', req.body)
-    const user = await User.createUser({email: req.body.email, password: req.body.password})
 
     res.status(201).json(user);
   } catch (err) {
