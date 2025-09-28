@@ -26,7 +26,7 @@ exports.createUser = async (req, res) => {
     req.body.password = hashedPassword;
     const user = await newUser(req.body);
 
-    res.status(201).json(user);
+    res.status(201).json({message: 'user has been created'});
   } catch (err) {
     if(err.code === "P2002"){
       res.status(501).json({message: 'email is already registered'})

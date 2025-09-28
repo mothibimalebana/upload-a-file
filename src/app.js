@@ -11,6 +11,8 @@ const homeRouter = require('./routes/homeRouter');
 const cors = require('cors');
 const userRouter = require('./routes/userRoute');
 const { getUser } = require('./services/userServices');
+const fileRouter = require('./routes/fileRoute');
+const folderRouter = require('./routes/folderRoute');
 const prisma = new PrismaClient();
 
 
@@ -79,8 +81,10 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.use('/user', userRouter)
-app.use('/', authRouter);
+
+app.use('/user', userRouter);
+app.use('/file', fileRouter);
+app.use('/folder', folderRouter)
 
 const getUsers = async () => {
 const users = await prisma.user.findMany();
