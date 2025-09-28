@@ -1,4 +1,3 @@
-const e = require('express');
 const { PrismaClient } = require('../../generated/prisma');
 
 const prisma = new PrismaClient();
