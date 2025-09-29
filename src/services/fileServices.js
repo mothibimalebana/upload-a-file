@@ -1,5 +1,4 @@
 const { PrismaClient } = require('../../generated/prisma');
-const { updateFile } = require('../controllers/fileController');
 
 const prisma = new PrismaClient();
 

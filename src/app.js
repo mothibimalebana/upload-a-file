@@ -7,10 +7,9 @@ const bcrypt = require('bcryptjs');
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('../generated/prisma/client');
-const homeRouter = require('./routes/homeRouter');
 const cors = require('cors');
 const userRouter = require('./routes/userRoute');
-const { getUser } = require('./services/userServices');
+const { getUser, getUserByEmail } = require('./services/userServices');
 const fileRouter = require('./routes/fileRoute');
 const folderRouter = require('./routes/folderRoute');
 const prisma = new PrismaClient();
@@ -48,7 +47,7 @@ app.use(express.json());
 passport.use(
   new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
     try {
-      const user = await User.getUser(email);
+      const user = await getUserByEmail(email);
       console.log('user-local-strategy: ', user)
       
       if (!user) {
@@ -85,6 +84,7 @@ passport.deserializeUser(async (id, done) => {
 app.use('/user', userRouter);
 app.use('/file', fileRouter);
 app.use('/folder', folderRouter)
+app.use('/auth', authRouter)
 
 const getUsers = async () => {
 const users = await prisma.user.findMany();

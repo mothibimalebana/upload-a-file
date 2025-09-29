@@ -11,6 +11,19 @@ const getAllUsers = async () => {
   }
 }
 
+const getUserByEmail = async (email) => {
+  try{
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email
+      }
+    })
+    return user
+  } catch(err) {
+    console.error(err.message)
+  }
+}
+
 const getUser = async (id) => {
   try{
   const user = await prisma.user.findUnique({
@@ -66,4 +79,4 @@ const deleteUser = async (id) => {
   }
 }
 
-module.exports = {newUser, getAllUsers, getUser, updateUser, deleteUser}
+module.exports = {newUser, getAllUsers, getUser, updateUser, deleteUser, getUserByEmail}
