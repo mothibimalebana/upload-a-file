@@ -56,7 +56,7 @@ const updateFile = async (userId, fileId, file, folderId) => {
         const updatedFile = await prisma.file.update({
             where: {
                 userId: userId,
-                id: fileId
+                id: Number(fileId)
             }, 
             data: {
                 filename: file.filename,
