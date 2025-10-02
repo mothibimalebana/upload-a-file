@@ -1,12 +1,12 @@
 const express = require('express');
 const folderRouter = express.Router();
-const { fetchFile, fetchAllFiles, createFile, updateFile, deleteFile } = require('../controllers/fileController');
+const { fetchAllFolder, fetchFolder, createFolder, updateFolder, deleteFolder } = require('../controllers/folderController');
 
-folderRouter.get('/', fetchAllFiles);
-folderRouter.get('/:id', fetchFile);
-folderRouter.post('/', createFile);
-folderRouter.put('/:id', updateFile);
-folderRouter.delete('/:id', deleteFile);
+folderRouter.get('/', fetchAllFolder);
+folderRouter.get('/:id', fetchFolder);
+folderRouter.post('/', createFolder);
+folderRouter.put('/:id', updateFolder);
+folderRouter.delete('/:id', deleteFolder);
 
 module.exports = folderRouter;
  

@@ -21,7 +21,7 @@ exports.fetchAllFiles = async (req, res)  => {
 }
 exports.createFile = async (req, res) => {
   try {
-    const file = await newFile(req.user.id, req.file, req.params.id);
+    const file = await newFile(req.user.id, req.file, req.body.name);
     res.status(201).json({message: 'File has been created', file: file});
   } catch (err) {
     if(err.code === "P2002"){
@@ -34,7 +34,7 @@ exports.createFile = async (req, res) => {
 
   exports.updateFile = async (req, res) => {
     try {
-      const file = await updateFile(req.user.id, req.params.id, req.file, req.body.id)
+      const file = await updateFile(req.user.id, req.params.id, req.file, req.body.name)
       res.status(201).json({message: 'File updated: ', file: file})
     }
     catch (err) {

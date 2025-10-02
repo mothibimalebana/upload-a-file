@@ -90,7 +90,17 @@ const getUsers = async () => {
 const users = await prisma.user.findMany();
 console.log(users)
 }
-getUsers()
+getUsers();
+
+const getFolders = async (userId) => {
+  const folders = await prisma.folder.findMany({
+    where: {
+      userId: userId
+    }
+  })
+  console.log(folders)
+}
+getFolders(6);
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

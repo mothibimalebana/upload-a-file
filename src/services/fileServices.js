@@ -20,8 +20,8 @@ const getFile = async (userId, fileId) => {
     try{
         const file = await prisma.file.findUnique({
             where: {
-                id: fileId,
-                userId: userId
+                id: Number(fileId),
+                userId: Number(userId)
             }
         })
         return file
@@ -42,7 +42,7 @@ const newFile = async(userId, file, folderId) => {
                 path: file.path,
                 size: file.size,
                 userId: userId,
-                folderId: folderId
+                folderId: Number(folderId)
             }
         })
         return newFile
@@ -67,7 +67,7 @@ const updateFile = async (userId, fileId, file, folderId) => {
                 path: file.path,
                 size: file.size,
                 userId: userId,
-                folderId: folderId
+                folderId: Number(folderId)
             }
         }) 
         return updatedFile
@@ -80,8 +80,8 @@ const deleteFile = async (userId, fileId) => {
     try{
         const deletedFile = await prisma.file.delete({
             where: {
-                userId: userId,
-                id: fileId,
+                userId: Number(userId),
+                id: Number(fileId),
             }
         })
         return deletedFile
